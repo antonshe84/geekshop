@@ -9,7 +9,17 @@ def index(request):
     }
     return render(request, 'products/index.html', context)
 
+def products(request):
+    from products.models import Product, ProductCategory
+    context = {
+            'title': 'GeekShop - каталог наших предложений',
+            'date': datetime.datetime.now().today(),
+            'products': Product.objects.all(),
+            'category': ProductCategory.objects.all()
+        }
+    return render(request, 'products/products.html', context)
 
+'''
 def products(request):
     with open('products/templates/db.json', 'r') as f:
         products_data = json.load(f)
@@ -59,3 +69,4 @@ def products(request):
         # ]
     }
     return render(request, 'products/products.html', context)
+'''
