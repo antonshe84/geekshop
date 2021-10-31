@@ -26,8 +26,9 @@ urlpatterns = [
     path('', index, name='index'),
     path('products/', include('products.urls', namespace='products'), name='products'),
     path('admin/', admin.site.urls),
+    path('users/', include('users.urls', namespace='users'), name='users'),
+    path('baskets/', include('baskets.urls', namespace='baskets'), name='baskets'),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

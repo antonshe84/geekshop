@@ -60,8 +60,7 @@
                         <div class="card h-100">
                             <a href="#">
                                 <img class="card-img-top"
-                                     src={{product.image.url}}
-                                     alt="">
+                                     src={{product.image.url}}>
                             </a>
                             <div class="card-body">
                                 <h4 class="card-title">
@@ -71,7 +70,7 @@
                                 <p class="card-text">{{product.description}}</p>
                             </div>
                             <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
+                                <a href = "{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить в корзину</a>
                             </div>
                         </div>
                     </div>
