@@ -5,7 +5,7 @@ from products.models import Product
 
 
 class Basket(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='baskets')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     created_timestamp = models.DateTimeField(auto_now_add=True)
@@ -16,15 +16,12 @@ class Basket(models.Model):
     def sum(self):
         return self.quantity * self.product.price
 
-    @classmethod
-    def total_quantity(cls):
-        res = cls.objects.all().aggregate(Sum('quantity'))
-        return res['quantity__sum']
+    @property
+    def baskets(self):
+        return Basket.objects.filter(user=self.user)
 
-    @classmethod
-    def total_sum(cls):
-        data = cls.objects.all()
-        res = 0
-        for i in data:
-            res += i.sum()
-        return res
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self.baskets)  # baskets, который property
+
+    def total_sum(self):
+        return sum(basket.sum() for basket in self.baskets)  # baskets, который property
