@@ -8,7 +8,7 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(verbose_name='название продукта', max_length=256)
-    description = models.TextField(verbose_name='описание', blank=True)
+    description = models.TextField(blank=True,null=True, default='')
     image = models.ImageField(verbose_name='изображение продукта', blank=True, upload_to='product_img')
     price = models.DecimalField(verbose_name='стоимость', max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField(verbose_name='количество', default=0)
