@@ -1,8 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect
 from products.models import Product
 from baskets.models import Basket
+from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
-
+@login_required
 def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
@@ -16,7 +19,23 @@ def basket_add(request, product_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def basket_remove(request, id_basket):
     basket = Basket.objects.get(id=id_basket)
     basket.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def basket_edit(request, id, quantity):
+    if request.is_ajax():
+        basket = Basket.objects.get(id=id)
+        if quantity>0:
+            basket.quantity = quantity
+            basket.save()
+        else:
+            basket.delete()
+        baskets = Basket.objects.filter(user = request.user)
+        context = {'baskets': baskets}
+        result = render_to_string('baskets/basket.html', context)
+        return JsonResponse({'result': result})

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'baskets',
+    'admins',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.Users'
+
+LOGIN_URL = '/users/login/' # нужна дял корректной работы декоратора @login_required
